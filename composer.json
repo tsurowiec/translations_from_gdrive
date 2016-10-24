@@ -1,0 +1,8 @@
+{
+    "autoload": {
+        "psr-4": { "": "src/", "SymfonyStandard\\": "app/" }
+    },
+    "require": {
+        "google/apiclient": "^2.0"
+    }
+}
