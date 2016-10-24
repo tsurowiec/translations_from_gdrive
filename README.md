@@ -11,5 +11,6 @@ in the `\lang` directory of your project put a json file named `translate.json`
 ```
 run the containter
 
+
 `docker run -ti --rm -v <<lang directory>>:/lang tsurowiec/translations_from_gdrive`
 
