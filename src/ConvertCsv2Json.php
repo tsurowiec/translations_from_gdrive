@@ -64,11 +64,11 @@ class ConvertCsv2Json
         fclose($file);
 
         $file = fopen('/lang/en.json', 'w');
-        fwrite($file, json_encode($en));
+        fwrite($file, json_encode($en, JSON_PRETTY_PRINT));
         fclose($file);
 
         $file = fopen('/lang/ar.json', 'w');
-        fwrite($file, json_encode($ar));
+        fwrite($file, json_encode($ar, JSON_PRETTY_PRINT));
         fclose($file);
 
         echo('done...');
