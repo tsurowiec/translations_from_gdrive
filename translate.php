@@ -8,8 +8,15 @@ date_default_timezone_set('Europe/Warsaw');
 if (php_sapi_name() != 'cli') {
   throw new Exception('This application must be run on the command line.');
 }
+if(!file_exists('/lang/translate.json')) {
+    exit('There is no translate.json file in your mapped volume');
+}
 
 $config = json_decode(file_get_contents('/lang/translate.json'));
+
+if(!$config->fileId) {
+    exit('There is no file ID in translate.json file');
+}
 
 $service = GDrive::getService();
 

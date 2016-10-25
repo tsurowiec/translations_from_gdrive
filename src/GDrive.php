@@ -41,7 +41,6 @@ class GDrive
                 mkdir(dirname($credentialsPath), 0700, true);
             }
             file_put_contents($credentialsPath, json_encode($accessToken));
-            printf("Credentials saved to %s\n", $credentialsPath);
         }
         $client->setAccessToken($accessToken);
 

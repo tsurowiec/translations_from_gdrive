@@ -63,7 +63,6 @@ class ConvertCsv2Json
         }
         fclose($file);
 
-
         $file = fopen('/lang/en.json', 'w');
         fwrite($file, json_encode($en));
         fclose($file);
@@ -74,5 +73,4 @@ class ConvertCsv2Json
 
         echo('done...');
     }
-
 }
