@@ -12,11 +12,14 @@ class XmlGenerator extends TranslationGenerator
             $node->addAttribute('xmlns', 'urn:oasis:names:tc:xliff:document:1.2');
             $file = $node->addChild('file');
             $file->addAttribute('datatype', 'plaintext');
+            $file->addAttribute('source-language', 'en');
+            $file->addAttribute('original', 'file.ext');
             $body = $file->addChild('body');
             for ($i = 0; $i < count($full); ++$i) {
                 if ($i == count($full) - 1 || $this->isLeaf($full, $i)) {
                     if ($this->isExported($full[$i])) {
                         $unit = $body->addChild('trans-unit');
+                        $unit->addAttribute('id', htmlspecialchars($this->forgeKey($full[$i])));
                         $unit->addChild('source', htmlspecialchars($this->forgeKey($full[$i])));
                         $unit->addChild('target', htmlspecialchars($full[$i][$key]));
                     }
@@ -30,7 +33,7 @@ class XmlGenerator extends TranslationGenerator
     {
         $dom = dom_import_simplexml($translation)->ownerDocument;
         $dom->formatOutput = true;
-        $file = fopen('/lang/'.$lang.'.xml', 'w');
+        $file = fopen('/lang/messages.'.$lang.'.xlf', 'w');
         fwrite($file, $dom->saveXML());
         fclose($file);
     }
