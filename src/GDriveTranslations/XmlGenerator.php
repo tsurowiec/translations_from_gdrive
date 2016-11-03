@@ -4,7 +4,7 @@ namespace GDriveTranslations;
 
 class XmlGenerator extends TranslationGenerator
 {
-    public function translate(&$full)
+    public function generate(&$full)
     {
         foreach ($this->metadata->langs as $key => $value) {
             $node = new \SimpleXMLElement('<xliff/>');

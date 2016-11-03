@@ -4,7 +4,7 @@ namespace GDriveTranslations;
 
 class JsonGenerator extends TranslationGenerator
 {
-    public function translate(&$full)
+    public function generate(&$full)
     {
         $res = [];
         foreach ($this->metadata->langs as $key => $value) {

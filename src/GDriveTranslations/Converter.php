@@ -33,6 +33,17 @@ class Converter
         }
         fclose($file);
 
+        $full = $this->transcribe($metadata, $lines);
+
+        $this->jsoner->setMetadata($metadata);
+        $this->jsoner->generate($full);
+
+        $this->xmler->setMetadata($metadata);
+        $this->xmler->generate($full);
+    }
+
+    private function transcribe(Metadata $metadata, $lines)
+    {
         $full = [];
         $newline = array_fill($metadata->keys[0], count($metadata->keys), '');
         foreach ($lines as $line) {
@@ -53,10 +64,6 @@ class Converter
             $full[] = $newline;
         }
 
-        $this->jsoner->setMetadata($metadata);
-        $this->jsoner->translate($full);
-
-        $this->xmler->setMetadata($metadata);
-        $this->xmler->translate($full);
+        return $full;
     }
 }
