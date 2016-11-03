@@ -1,27 +1,27 @@
 <?php
 
+namespace GDriveTranslations;
 
 class GDrive
 {
     const APPLICATION_NAME = 'Drive API PHP Quickstart';
-    const CREDENTIALS_PATH = '~/.credentials/drive-php-quickstart.json';
-    const CLIENT_SECRET_PATH = __DIR__ .'/../client_secret.json';
+    const CREDENTIALS_PATH = '/lang/.credentials/drive-php-quickstart.json';
+    const CLIENT_SECRET_PATH = __DIR__.'/../../client_secret.json';
 
     /**
      * Returns an authorized API client.
      *
-     * @return Google_Service_Drive
+     * @return \Google_Service_Drive
      */
     public static function getService()
     {
-        $client = new Google_Client();
+        $client = new \Google_Client();
         $client->setApplicationName(self::APPLICATION_NAME);
         $client->setScopes(implode(' ', [
-            Google_Service_Drive::DRIVE,
+            \Google_Service_Drive::DRIVE,
         ]));
         $client->setAuthConfig(self::CLIENT_SECRET_PATH);
         $client->setAccessType('offline');
-
         // Load previously authorized credentials from a file.
         $credentialsPath = self::expandHomeDirectory(self::CREDENTIALS_PATH);
         if (file_exists($credentialsPath)) {
@@ -43,14 +43,13 @@ class GDrive
             file_put_contents($credentialsPath, json_encode($accessToken));
         }
         $client->setAccessToken($accessToken);
-
         // Refresh the token if it's expired.
         if ($client->isAccessTokenExpired()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
             file_put_contents($credentialsPath, json_encode($client->getAccessToken()));
         }
 
-        return new Google_Service_Drive($client);
+        return new \Google_Service_Drive($client);
     }
 
     /**
