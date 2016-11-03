@@ -17,8 +17,8 @@ class XmlGenerator extends TranslationGenerator
                 if ($i == count($full) - 1 || $this->isLeaf($full, $i)) {
                     if ($this->isExported($full[$i])) {
                         $unit = $body->addChild('trans-unit');
-                        $unit->addChild('source', $this->forgeKey($full[$i]));
-                        $unit->addChild('target', $full[$i][$key]);
+                        $unit->addChild('source', htmlspecialchars($this->forgeKey($full[$i])));
+                        $unit->addChild('target', htmlspecialchars($full[$i][$key]));
                     }
                 }
             }

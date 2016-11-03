@@ -42,4 +42,4 @@ $whole += microtime(true);
 $converter = new Converter(new XmlGenerator(), new JsonGenerator());
 $converter->convert($content);
 $time += microtime(true);
-echo "\ntook : ".round($whole * 1000).'ms. downloading, '.round($time * 1000)."ms. parsing\n\n";
+echo "\ntook : ".round($whole * 1000).'ms. downloading, '.round($time * 1000)."ms. parsing, peak memory usage: ".round(memory_get_peak_usage(true)/1024/1024,2)."MB\n\n";
