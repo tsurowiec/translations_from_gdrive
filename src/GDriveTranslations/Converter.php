@@ -51,7 +51,7 @@ class Converter
             foreach ($metadata->keys as $key) {
                 if ($line[$key]) {
                     $newline[$key] = $line[$key];
-                    for ($i = $key + 1; $i < count($metadata->keys); ++$i) {
+                    for ($i = $key + 1; $i <= count($metadata->keys); ++$i) {
                         $newline[$i] = '';
                     }
                 }
@@ -63,7 +63,6 @@ class Converter
             ksort($newline);
             $full[] = $newline;
         }
-
         return $full;
     }
 }

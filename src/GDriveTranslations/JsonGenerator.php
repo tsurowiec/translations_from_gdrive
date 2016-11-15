@@ -45,6 +45,6 @@ class JsonGenerator extends TranslationGenerator
 
     private function isExported($line)
     {
-        return in_array($line[self::OUTPUT_COLUMN], ['', 'y']);
+        return in_array($line[self::OUTPUT_COLUMN], ['', 'y', 'j']);
     }
 }
