@@ -24,6 +24,16 @@ if (!$config->fileId) {
     exit('There is no file ID in translate.json file');
 }
 
+$targets = [
+    'json',
+    'xlf',
+];
+
+if(is_array($config->targets))
+{
+    $targets = $config->targets;
+}
+
 try {
     $service = GDrive::getService();
 } catch (\Exception $e) {
@@ -40,6 +50,6 @@ try {
 $time = -microtime(true);
 $whole += microtime(true);
 $converter = new Converter(new XmlGenerator(), new JsonGenerator());
-$converter->convert($content);
+$converter->convert($content, $targets);
 $time += microtime(true);
 echo "\ntook : ".round($whole * 1000).'ms. downloading, '.round($time * 1000)."ms. parsing, peak memory usage: ".round(memory_get_peak_usage(true)/1024/1024,2)."MB\n\n";

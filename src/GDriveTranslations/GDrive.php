@@ -4,8 +4,8 @@ namespace GDriveTranslations;
 
 class GDrive
 {
-    const APPLICATION_NAME = 'Drive API PHP Quickstart';
-    const CREDENTIALS_PATH = '/lang/.credentials/drive-php-quickstart.json';
+    const APPLICATION_NAME = 'Translate from gDrive';
+    const CREDENTIALS_PATH = '/lang/translate_token.json';
     const CLIENT_SECRET_PATH = __DIR__.'/../../client_secret.json';
 
     /**
@@ -43,10 +43,14 @@ class GDrive
             file_put_contents($credentialsPath, json_encode($accessToken));
         }
         $client->setAccessToken($accessToken);
+
         // Refresh the token if it's expired.
         if ($client->isAccessTokenExpired()) {
+            $refresh_token = $client->getRefreshToken();
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            file_put_contents($credentialsPath, json_encode($client->getAccessToken()));
+            $token = $client->getAccessToken();
+            $token['refresh_token'] = $refresh_token;
+            file_put_contents($credentialsPath, json_encode($token));
         }
 
         return new \Google_Service_Drive($client);

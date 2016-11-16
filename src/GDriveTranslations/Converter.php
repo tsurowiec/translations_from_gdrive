@@ -13,7 +13,7 @@ class Converter
         $this->xmler = $xmler;
     }
 
-    public function convert($csv)
+    public function convert($csv, $targets)
     {
         $file = fopen('data.csv', 'w');
         fwrite($file, $csv);
@@ -34,12 +34,15 @@ class Converter
         fclose($file);
 
         $full = $this->transcribe($metadata, $lines);
+        if(in_array('json', $targets)) {
+            $this->jsoner->setMetadata($metadata);
+            $this->jsoner->generate($full);
+        }
 
-        $this->jsoner->setMetadata($metadata);
-        $this->jsoner->generate($full);
-
-        $this->xmler->setMetadata($metadata);
-        $this->xmler->generate($full);
+        if(in_array('xlf', $targets)) {
+            $this->xmler->setMetadata($metadata);
+            $this->xmler->generate($full);
+        }
     }
 
     private function transcribe(Metadata $metadata, $lines)
