@@ -23,6 +23,10 @@ class Converter
 
         do {
             $line = fgetcsv($file);
+            if(feof($file)) {
+                exit ('No data to parse... exiting');
+            }
+
         } while ($line[0] != '###');
 
         $metadata = new Metadata($line);
