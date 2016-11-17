@@ -11,6 +11,8 @@ use GuzzleHttp\Psr7\Response;
 require_once __DIR__.'/vendor/autoload.php';
 date_default_timezone_set('Europe/Warsaw');
 
+echo "\nTranslations from GDrive\n========================\n\n";
+
 if (php_sapi_name() != 'cli') {
     throw new Exception('This application must be run on the command line.');
 }
