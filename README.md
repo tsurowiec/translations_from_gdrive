@@ -31,8 +31,8 @@ saved in the `lang directory`.
 #### Google Spreadsheet markup:
 
 Parser ignores every row until metadata row is found. 
-Metadata row starts with `###` (metadata column), then multiple `>>>` follow (key levels), finally the locales that are being
-translated.
+Metadata row starts with `###` (metadata column), then multiple `>>>` follow (key levels), finally the locales that 
+are being translated.
 
 example : `###, >>>, >>>, >>>, en, fr, pl`
 
