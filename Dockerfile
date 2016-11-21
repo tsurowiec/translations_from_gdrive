@@ -1,4 +1,4 @@
-FROM php:5.6-alpine
+FROM php:7-alpine
 MAINTAINER Suro "suro@tsh.io"
 
 COPY . /src/translator

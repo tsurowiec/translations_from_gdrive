@@ -1,6 +1,6 @@
 <?php
 
-namespace GDriveTranslations;
+namespace GDriveTranslations\Source;
 
 class Metadata
 {
@@ -9,20 +9,21 @@ class Metadata
 
     public function __construct($row)
     {
+        $this->keys = [];
+        $this->langs = [];
         $this->parseForMeta($row);
     }
 
     private function parseForMeta($row)
     {
-        $this->keys = [];
-        $this->langs = [];
-
         foreach ($row as $key => $field) {
             switch ($field) {
                 case '###':
                     break;
                 case '>>>':
                     $this->keys[] = $key;
+                    break;
+                case '':
                     break;
                 default:
                     $this->langs[$key] = $field;
