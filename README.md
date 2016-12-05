@@ -14,14 +14,14 @@ In the `\lang` directory of your project put a json file named `translate.json`.
 
 ```
 {
-  "fileId": "google drive file ID",
+  "fileId": "1AUAKxhuZyjYl4NdpQCLBcSZe2snKAOjcXArlHRIn_hM",
   "targets": [
     {
       "format": "json",
       "pattern": "translations.%locale%",
       "sections": [
         "CORE",
-        "FORMS"
+        "FRONT"
       ]
     }
   ]

@@ -16,7 +16,11 @@ class Config
             exit('There is no translate.json file in your mapped volume');
         }
 
-        $raw = json_decode(file_get_contents('/lang/translate.json'));
+        try {
+            $raw = json_decode(file_get_contents('/lang/translate.json'));
+        } catch (\Exception $e) {
+            exit('Cannot parse translate.json - invalid format ?');
+        }
         self::validate($raw);
 
         return self::forgeFromRaw($raw);
