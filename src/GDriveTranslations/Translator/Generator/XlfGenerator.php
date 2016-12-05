@@ -35,7 +35,7 @@ class XlfGenerator extends FlatBaseGenerator implements GeneratorInterface
             $dom = dom_import_simplexml($node)->ownerDocument;
             $dom->formatOutput = true;
 
-            $this->save($dom->saveXML(), $lang, $target->pattern);
+            $this->save($dom->saveXML(), $lang, $target->pattern.self::EXTENSION);
         }
     }
 
