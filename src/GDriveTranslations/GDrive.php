@@ -2,6 +2,8 @@
 
 namespace GDriveTranslations;
 
+use GDriveTranslations\Config\Config;
+
 class GDrive
 {
     const APPLICATION_NAME = 'Translate from gDrive';
@@ -11,15 +13,24 @@ class GDrive
     /**
      * Returns an authorized API client.
      *
+     * @param Config $config
+     *
      * @return \Google_Service_Drive
      */
-    public static function getService()
+    public static function getService($scope)
     {
+        $scopes = [];
         $client = new \Google_Client();
         $client->setApplicationName(self::APPLICATION_NAME);
-        $client->setScopes(implode(' ', [
-            \Google_Service_Drive::DRIVE,
-        ]));
+        switch ($scope) {
+            case Config::ACCESS_FILE:
+                $scopes[] = \Google_Service_Drive::DRIVE_FILE;
+                break;
+            case Config::ACCESS_DRIVE:
+                $scopes[] = \Google_Service_Drive::DRIVE;
+                break;
+        }
+        $client->setScopes(implode(' ', $scopes));
         $client->setAuthConfig(self::CLIENT_SECRET_PATH);
         $client->setAccessType('offline');
         // Load previously authorized credentials from a file.

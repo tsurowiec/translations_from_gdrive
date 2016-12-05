@@ -6,9 +6,19 @@ use GDriveTranslations\Utils\Assert;
 
 class Config
 {
-    public $file;
+    const ACCESS_DRIVE = 'drive';
+    const ACCESS_FILE = 'file';
+
+    public $fileId;
     /** @var  Target[] */
     public $targets;
+    public $accessType;
+
+    public function __construct()
+    {
+        $this->targets = [];
+        $this->accessType = self::ACCESS_DRIVE;
+    }
 
     public static function read()
     {
@@ -40,10 +50,23 @@ class Config
     public static function forgeFromRaw(\stdClass $raw)
     {
         $config = new self();
-        $config->file = $raw->fileId;
+        if (isset($raw->accessType) && $raw->accessType == self::ACCESS_FILE) {
+            $config->accessType = $raw->accessType;
+        }
+        $config->fileId = $raw->fileId;
         foreach ($raw->targets as $target) {
             $config->targets[] = Target::forgeFromRaw($target);
         }
+
+        return $config;
+    }
+
+    public static function forgeExample($fileId)
+    {
+        $config = new self();
+        $config->fileId = $fileId;
+        $config->targets = [];
+        $config->accessType = self::ACCESS_FILE;
 
         return $config;
     }

@@ -23,7 +23,7 @@ class TranslationData
         do {
             $line = fgetcsv($file);
             if (feof($file)) {
-                exit('No data to parse... exiting');
+                exit("No data to parse... exiting\n");
             }
         } while (!in_array('>>>', $line));
 
