@@ -8,12 +8,14 @@ class Target
 {
     public $format;
     public $sections;
+    public $tags;
     public $pattern;
 
     public static function forgeFromRaw(\stdClass $raw)
     {
         $target = new self();
         $target->format = $raw->format;
+        $target->tags = $raw->tags;
         $target->pattern = property_exists($raw, 'pattern') ? $raw->pattern : '_default';
         $target->sections = property_exists($raw, 'sections') ? $raw->sections : ['_all'];
 
@@ -27,6 +29,12 @@ class Target
             Assert::isArray($raw, 'sections');
             foreach ($raw->sections as $section) {
                 Assert::isString('section name', $section);
+            }
+        }
+        if (property_exists($raw, 'tags')) {
+            Assert::isArray($raw, 'tags');
+            foreach ($raw->tags as $tag) {
+                Assert::isString('tag name', $tag);
             }
         }
     }

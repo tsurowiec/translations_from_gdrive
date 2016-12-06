@@ -54,6 +54,7 @@ class TranslationData
             foreach ($this->metadata->langs as $key => $value) {
                 $newline[$key] = $line[$key];
             }
+            $newline[$this->metadata->tags] = $line[$this->metadata->tags];
             ksort($newline);
             $rows[] = $newline;
         }
@@ -76,8 +77,26 @@ class TranslationData
         return count(array_filter($keys));
     }
 
-    public function isExported($line, $sections)
+    public function isExported($line, $sections, $requestedTags)
+    {
+        return $this->inExportedSection($line, $sections) && $this->inExportedTag($line, $requestedTags);
+    }
+
+    private function inExportedSection($line, $sections)
     {
         return in_array('_all', $sections) || in_array($line[$this->metadata->keys[0]], $sections);
+    }
+
+    private function inExportedTag($line, $requestedTags)
+    {
+        $exportedTag = true;
+        if (count($requestedTags)) {
+            $tags = array_filter(array_map('trim', explode(',', $line[$this->metadata->tags])));
+            if (count($tags)) {
+                $exportedTag = count(array_intersect($requestedTags, $tags)) > 0;
+            }
+        }
+
+        return $exportedTag;
     }
 }

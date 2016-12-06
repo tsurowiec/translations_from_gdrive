@@ -21,7 +21,7 @@ class AndroidGenerator extends FlatBaseGenerator implements GeneratorInterface
             $node = new \SimpleXMLElement('<resources/>');
             for ($i = 0; $i < count($data->rows); ++$i) {
                 if ($i == count($data->rows) - 1 || $data->isLeaf($i)) {
-                    if ($data->isExported($data->rows[$i], $target->sections)) {
+                    if ($data->isExported($data->rows[$i], $target->sections, $target->tags)) {
                         $row = $node->addChild('string', htmlspecialchars($data->rows[$i][$key]));
                         $row->addAttribute('name', htmlspecialchars($this->forgeKey($data, $i)));
                     }
