@@ -32,6 +32,10 @@ In the `\lang` directory of your project put a json file named `translate.json`.
       "sections": [
         "CORE",
         "FRONT"
+      ],
+      "tags": [
+        "mail",
+        "error"
       ]
     }
   ]
@@ -62,6 +66,10 @@ If ommited defaults to naming convention of a target:
 that are to be included in the resulting files. 
 When ommited defaults to `_all`, meaning that all the keys will be included. 
  
+**Tags** key is optional and define array of tags that are to be included in the resulting files. 
+This is variation to sections if the structure is more complicated and you want to fine tune witch keys go to the
+target on the single key basis instead of section basis. Tags are defined for every key in `###` column. Tags are separated with coma.
+ 
 The result files will be placed in the same directory as the `translate.json` configuration file. 
 
 ### running the containter
@@ -77,7 +85,9 @@ Parser ignores every row until metadata row is found.
 Metadata row is first row that contains `>>>` marker. 
 It defines first level of translation keys. Then multiple `>>>` follow to indicate next key levels. 
 In that level you also define the various locales you want to put in the translations spreadsheet.  
+Additionally you can introduce the tags column `###` where you can tag every key, and then fine tune the targets by
+selecting tags that to be included. 
 
-example : `>>>, >>>, >>>, en, fr, pl`
+example : `###, >>>, >>>, >>>, en, fr, pl`
 
 Every next row is parsed for translations (see example referenced at the beginning of this document). 
