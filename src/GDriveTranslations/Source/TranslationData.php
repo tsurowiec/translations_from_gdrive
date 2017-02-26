@@ -79,7 +79,7 @@ class TranslationData
 
     public function isExported($line, $sections, $requestedTags)
     {
-        return $this->inExportedSection($line, $sections) && $this->inExportedTag($line, $requestedTags);
+        return $this->inExportedSection($line, $sections) || $this->inExportedTag($line, $requestedTags);
     }
 
     private function inExportedSection($line, $sections)
@@ -89,7 +89,7 @@ class TranslationData
 
     private function inExportedTag($line, $requestedTags)
     {
-        $exportedTag = true;
+        $exportedTag = false;
         if (count($requestedTags)) {
             $tags = array_filter(array_map('trim', explode(',', $line[$this->metadata->tags])));
             if (count($tags)) {

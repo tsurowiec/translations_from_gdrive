@@ -17,7 +17,7 @@ class Target
         $target->format = $raw->format;
         $target->tags = $raw->tags;
         $target->pattern = property_exists($raw, 'pattern') ? $raw->pattern : '_default';
-        $target->sections = property_exists($raw, 'sections') ? $raw->sections : ['_all'];
+        $target->sections = property_exists($raw, 'sections') ? $raw->sections : [];
 
         return $target;
     }

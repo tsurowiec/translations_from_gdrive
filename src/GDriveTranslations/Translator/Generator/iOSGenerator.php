@@ -17,7 +17,7 @@ class iOSGenerator extends FlatBaseGenerator implements GeneratorInterface
             $content = '';
             for ($i = 0; $i < count($data->rows); ++$i) {
                 if ($i == count($data->rows) - 1 || $data->isLeaf($i)) {
-                    if ($data->isExported($data->rows[$i], $target->sections, $target->tags)) {
+                    if ($data->rows[$i][$key] && $data->isExported($data->rows[$i], $target->sections, $target->tags)) {
                         $content .= '"'.$this->forgeKey($data, $i).'" = "'.
                             htmlspecialchars($data->rows[$i][$key])."\";\n";
                     }

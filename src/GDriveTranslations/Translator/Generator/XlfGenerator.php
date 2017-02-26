@@ -24,7 +24,7 @@ class XlfGenerator extends FlatBaseGenerator implements GeneratorInterface
             $body = $file->addChild('body');
             for ($i = 0; $i < count($data->rows); ++$i) {
                 if ($i == count($data->rows) - 1 || $data->isLeaf($i)) {
-                    if ($data->isExported($data->rows[$i], $target->sections, $target->tags)) {
+                    if ($data->rows[$i][$key] && $data->isExported($data->rows[$i], $target->sections, $target->tags)) {
                         $unit = $body->addChild('trans-unit');
                         $unit->addAttribute('id', htmlspecialchars($this->forgeKey($data, $i)));
                         $unit->addChild('source', htmlspecialchars($this->forgeKey($data, $i)));

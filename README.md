@@ -63,8 +63,8 @@ If ommited defaults to naming convention of a target:
 - for `iOS` : `%locale%.lproj/Localizable` - example: `en.lproj/Localizable.strings`, `pl.lproj/Localizable.strings`
 
 **Sections** key is optional and define array of sections (root key levels in the translation spreadsheet) 
-that are to be included in the resulting files. 
-When ommited defaults to `_all`, meaning that all the keys will be included. 
+that are to be included in the resulting files. You can provide a virtual value `["_all"]` to include everything
+from the translations spreadsheet without mentioning every single section in it. 
  
 **Tags** key is optional and define array of tags that are to be included in the resulting files. 
 This is variation to sections if the structure is more complicated and you want to fine tune witch keys go to the

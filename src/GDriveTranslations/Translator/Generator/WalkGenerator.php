@@ -18,11 +18,14 @@ abstract class WalkGenerator extends BaseGenerator
             }
             if ($level == $lvl) {
                 if ($i == count($data->rows) || $data->isLeaf($i)) {
-                    if ($data->isExported($line, $target->sections, $target->tags)) {
+                    if ($line[$value] && $data->isExported($line, $target->sections, $target->tags)) {
                         $res[$line[$data->metadata->keys[$lvl - 1]]] = $line[$value];
                     }
                 } else {
-                    $res[$line[$data->metadata->keys[$lvl - 1]]] = $this->walk($data, $target, $lvl + 1, $i + 1, $value);
+                    $walked = $this->walk($data, $target, $lvl + 1, $i + 1, $value);
+                    if(count($walked)) {
+                        $res[$line[$data->metadata->keys[$lvl - 1]]] = $walked;
+                    }
                 }
             }
         }
