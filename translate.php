@@ -3,6 +3,8 @@
 $downloadTime = -microtime(true);
 
 use GDriveTranslations\Config\Config;
+use GDriveTranslations\Config\Reader;
+use GDriveTranslations\Config\Writer;
 use GDriveTranslations\GDriveDownloader;
 use GDriveTranslations\Source\TranslationData;
 use GDriveTranslations\Translator\Translator;
@@ -22,9 +24,12 @@ if (php_sapi_name() != 'cli') {
     exit('This application must be run on the command line.');
 }
 
-if (file_exists('/lang/translate.json')) {
+$configFilename = '/lang/translate.json';
 
-    $config = Config::read();
+if (file_exists($configFilename)) {
+
+    $configReader = new Reader();
+    $config = $configReader->read($configFilename);
 
     GDriveDownloader::download($config);
     $parseTime = -microtime(true);
@@ -48,7 +53,14 @@ if (file_exists('/lang/translate.json')) {
     if(!$line) {
         exit('Cancelled'."\n\n");
     }
-    $fileId = GDriveDownloader::create($line);
-    echo "\nTransactions initialized, spreadsheet has been created in GDrive, translate.json has been saved. \n";
+    $sheetFile = GDriveDownloader::create($line);
+
+    $config = new Config($sheetFile->id, Config::ACCESS_FILE);
+
+    $writer = new Writer();
+    $writer->write($config, $configFilename);
+
+    printf('Translations spreadsheet initialized and available under https://docs.google.com/spreadsheets/d/%s', $sheetFile->id);
+    echo "\ntranslate.json has been saved. \n";
     echo "Please edit translate.json to add targets.\n\n";
 }

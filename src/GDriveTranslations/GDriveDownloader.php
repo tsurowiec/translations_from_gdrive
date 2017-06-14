@@ -33,22 +33,15 @@ class GDriveDownloader
 
     public static function create($filename)
     {
-        $service = self::getService(Config::ACCESS_FILE);
+        $service = self::getService(Config::ACCESS_DRIVE);
+
+        $copiedFile = new \Google_Service_Drive_DriveFile();
+        $copiedFile->setName($filename);
+
         try {
-            $meta = new \Google_Service_Drive_DriveFile([
-                'name' => $filename,
-                'mimeType' => 'application/vnd.google-apps.spreadsheet',
-            ]);
-            $file = $service->files->create($meta, [
-                'fields' => 'id',
-            ]);
-            $config = Config::forgeExample($file->id);
+            $gFile = $service->files->copy('1AUAKxhuZyjYl4NdpQCLBcSZe2snKAOjcXArlHRIn_hM', $copiedFile);
 
-            $file = fopen('/lang/translate.json', 'w');
-            fwrite($file, json_encode($config, JSON_PRETTY_PRINT));
-            fclose($file);
-
-            return $file->id;
+            return $gFile;
         } catch (\Exception $e) {
             exit('Could not create spreadsheet: '.$e->getMessage());
         }

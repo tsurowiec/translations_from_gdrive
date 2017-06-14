@@ -2,11 +2,15 @@ Parses google drive spreadsheet and generates translation files
 =======
 
 
-### about
+## About
 
 this tool parses google drive spreadsheet into translation files. 
 You can use single spreadsheet to generate  translation files in various formats that can be used in frontend, backend and mobile development. 
 The markup of the spreadsheet is described below, but nothing is as self explanatory as [an example](https://docs.google.com/spreadsheets/d/1AUAKxhuZyjYl4NdpQCLBcSZe2snKAOjcXArlHRIn_hM/edit?usp=sharing). 
+
+## Configuration
+
+Creating default configuration file and translations spreadsheet is easy as running tool and providing name for translations spreadsheet.
 
 ### persmissions
 
