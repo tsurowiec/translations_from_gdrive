@@ -28,7 +28,8 @@ class GDriveDownloader
         } catch (\Exception $e) {
             exit('Could not download the spreadsheet: '.$e->getMessage());
         }
-        self::saveCSVToFile($content);
+
+        return $content;
     }
 
     public static function create($filename)
@@ -45,12 +46,5 @@ class GDriveDownloader
         } catch (\Exception $e) {
             exit('Could not create spreadsheet: '.$e->getMessage());
         }
-    }
-
-    private static function saveCSVToFile($csvContent)
-    {
-        $file = fopen('data.csv', 'w');
-        fwrite($file, $csvContent);
-        fclose($file);
     }
 }

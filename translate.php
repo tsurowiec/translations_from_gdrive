@@ -6,7 +6,7 @@ use GDriveTranslations\Config\Config;
 use GDriveTranslations\Config\Reader;
 use GDriveTranslations\Config\Writer;
 use GDriveTranslations\GDriveDownloader;
-use GDriveTranslations\Source\TranslationData;
+use GDriveTranslations\Source\TranslationDataLoader;
 use GDriveTranslations\Translator\Translator;
 use GDriveTranslations\Translator\Generator\AndroidGenerator;
 use GDriveTranslations\Translator\Generator\iOSGenerator;
@@ -31,11 +31,16 @@ if (file_exists($configFilename)) {
     $configReader = new Reader();
     $config = $configReader->read($configFilename);
 
-    GDriveDownloader::download($config);
+    $csvContent = GDriveDownloader::download($config);
     $parseTime = -microtime(true);
     $downloadTime += microtime(true);
 
-    $data = TranslationData::forgeFromContent();
+    $file = fopen('data.csv', 'w');
+    fwrite($file, $csvContent);
+    fclose($file);
+
+    $dataLoader = new TranslationDataLoader();
+    $data = $dataLoader->load('data.csv');
 
     $translator = new Translator();
     $translator
