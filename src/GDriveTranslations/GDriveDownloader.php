@@ -7,23 +7,21 @@ use GuzzleHttp\Psr7\Response;
 
 class GDriveDownloader
 {
-    private static function getService($scope)
-    {
-        try {
-            $service = GDrive::getService($scope);
-        } catch (\Exception $e) {
-            exit('Could not connect to gdrive: '.$e->getMessage());
-        }
+    /**
+     * @var \Google_Service_Drive
+     */
+    private $drive;
 
-        return $service;
+    public function __construct(\Google_Service_Drive $drive)
+    {
+        $this->drive = $drive;
     }
 
-    public static function download(Config $config)
+    public function download(Config $config)
     {
-        $service = self::getService($config->accessType);
         /* @var Response $response */
         try {
-            $response = $service->files->export($config->fileId, 'text/csv', ['alt' => 'media']);
+            $response = $this->drive->files->export($config->fileId, 'text/csv', ['alt' => 'media']);
             $content = $response->getBody()->getContents();
         } catch (\Exception $e) {
             exit('Could not download the spreadsheet: '.$e->getMessage());
@@ -32,15 +30,13 @@ class GDriveDownloader
         return $content;
     }
 
-    public static function create($filename)
+    public function create($filename)
     {
-        $service = self::getService(Config::ACCESS_DRIVE);
-
         $copiedFile = new \Google_Service_Drive_DriveFile();
         $copiedFile->setName($filename);
 
         try {
-            $gFile = $service->files->copy('1AUAKxhuZyjYl4NdpQCLBcSZe2snKAOjcXArlHRIn_hM', $copiedFile);
+            $gFile = $this->drive->files->copy('1AUAKxhuZyjYl4NdpQCLBcSZe2snKAOjcXArlHRIn_hM', $copiedFile);
 
             return $gFile;
         } catch (\Exception $e) {

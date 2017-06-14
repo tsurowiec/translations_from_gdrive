@@ -24,14 +24,20 @@ if (php_sapi_name() != 'cli') {
     exit('This application must be run on the command line.');
 }
 
-$configFilename = '/lang/translate.json';
+const CONFIG_DIR = '/lang';
+
+$configFilename = CONFIG_DIR . '/translate.json';
+$credentialsFile = CONFIG_DIR . '/translate_token.json';
+
+$GDriveServiceFactory = new \GDriveTranslations\GDrive($credentialsFile);
+$downloader = new GDriveDownloader($GDriveServiceFactory->getService(Config::ACCESS_DRIVE));
 
 if (file_exists($configFilename)) {
 
     $configReader = new Reader();
     $config = $configReader->read($configFilename);
 
-    $csvContent = GDriveDownloader::download($config);
+    $csvContent = $downloader->download($config);
     $parseTime = -microtime(true);
     $downloadTime += microtime(true);
 
@@ -58,14 +64,14 @@ if (file_exists($configFilename)) {
     if(!$line) {
         exit('Cancelled'."\n\n");
     }
-    $sheetFile = GDriveDownloader::create($line);
+    $sheetFile = $downloader->create($line);
 
     $config = new Config($sheetFile->id, Config::ACCESS_FILE);
 
     $writer = new Writer();
     $writer->write($config, $configFilename);
 
-    printf('Translations spreadsheet initialized and available under https://docs.google.com/spreadsheets/d/%s', $sheetFile->id);
-    echo "\ntranslate.json has been saved. \n";
+    printf("Translations spreadsheet initialized and available under https://docs.google.com/spreadsheets/d/%s\n", $sheetFile->id);
+    echo "translate.json has been saved. \n";
     echo "Please edit translate.json to add targets.\n\n";
 }

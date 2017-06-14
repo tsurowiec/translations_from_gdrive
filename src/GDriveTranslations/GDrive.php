@@ -9,17 +9,25 @@ class GDrive
     const ACCESS_TOKEN = 'GDRIVE_ACCESS_TOKEN';
     const REFRESH_TOKEN = 'GDRIVE_REFRESH_TOKEN';
     const APPLICATION_NAME = 'Translate from gDrive';
-    const CREDENTIALS_PATH = '/lang/translate_token.json';
     const CLIENT_SECRET_PATH = __DIR__.'/../../client_secret.json';
+    /**
+     * @var string
+     */
+    private $credentialsFile;
+
+    public function __construct($credentialsFile)
+    {
+        $this->credentialsFile = $credentialsFile;
+    }
 
     /**
      * Returns an authorized API client.
      *
-     * @param Config $config
+     * @param string $scope
      *
      * @return \Google_Service_Drive
      */
-    public static function getService($scope)
+    public function getService($scope)
     {
         $scopes = [];
         $client = new \Google_Client();
@@ -36,7 +44,7 @@ class GDrive
         $client->setAuthConfig(self::CLIENT_SECRET_PATH);
         $client->setAccessType('offline');
         // Load previously authorized credentials from a file.
-        $credentialsPath = self::expandHomeDirectory(self::CREDENTIALS_PATH);
+        $credentialsPath = $this->expandHomeDirectory($this->credentialsFile);
         if (getenv(self::ACCESS_TOKEN)) {
             $accessToken = [];
             $accessToken['access_token'] = getenv(self::ACCESS_TOKEN);
@@ -82,7 +90,7 @@ class GDrive
      *
      * @return string the expanded path.
      */
-    public static function expandHomeDirectory($path)
+    private function expandHomeDirectory($path)
     {
         $homeDirectory = getenv('HOME');
         if (empty($homeDirectory)) {
