@@ -50,10 +50,10 @@ if (file_exists($configFilename)) {
 
     $translator = new Translator();
     $translator
-        ->addGenerator(new JsonGenerator())
-        ->addGenerator(new XlfGenerator())
-        ->addGenerator(new iOSGenerator())
-        ->addGenerator(new AndroidGenerator())
+        ->addGenerator(new JsonGenerator(CONFIG_DIR))
+        ->addGenerator(new XlfGenerator(CONFIG_DIR))
+        ->addGenerator(new iOSGenerator(CONFIG_DIR))
+        ->addGenerator(new AndroidGenerator(CONFIG_DIR))
         ->generate($data, $config);
 
     $parseTime += microtime(true);

@@ -4,11 +4,16 @@ namespace GDriveTranslations\Translator\Generator;
 
 abstract class BaseGenerator
 {
-    const DIRECTORY = '/lang';
+    private $directory;
+
+    public function __construct($directory)
+    {
+        $this->directory = $directory;
+    }
 
     protected function save($content, $lang, $pattern)
     {
-        $path = self::DIRECTORY;
+        $path = $this->directory;
         $parts = explode('/', $pattern);
         $file = array_pop($parts);
         foreach ($parts as $dir) {
