@@ -7,6 +7,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR /src/translator
 
-RUN composer install
+RUN composer install --no-dev
 
 CMD [ "php", "./translate.php" ]
