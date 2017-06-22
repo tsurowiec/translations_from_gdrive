@@ -33,6 +33,7 @@ In the `\lang` directory of your project put a json file named `translate.json`.
     {
       "format": "json",
       "pattern": "translations.%locale%",
+      "outputEmptyValues": false,
       "sections": [
         "CORE",
         "FRONT"
@@ -65,6 +66,9 @@ If ommited defaults to naming convention of a target:
 - for `xlf` : `messages.%locale%` - example: `messages.en.xlf`, `messages.pl.xlf`
 - for `android`: `values-%locale%/strings` - example: `values-en/strings.xml`, `values-pl/strings.xml`
 - for `iOS` : `%locale%.lproj/Localizable` - example: `en.lproj/Localizable.strings`, `pl.lproj/Localizable.strings`
+
+**outputEmptyValues** key is optional and define if translation keys with empty value should appear in output translation file.
+Default is **false**
 
 **Sections** key is optional and define array of sections (root key levels in the translation spreadsheet) 
 that are to be included in the resulting files. You can provide a virtual value `["_all"]` to include everything
