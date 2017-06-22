@@ -6,7 +6,7 @@ use GDriveTranslations\Config\Config;
 use GDriveTranslations\Config\Reader;
 use GDriveTranslations\Config\Writer;
 use GDriveTranslations\GDriveDownloader;
-use GDriveTranslations\Source\TranslationData;
+use GDriveTranslations\Source\TranslationDataLoader;
 use GDriveTranslations\Translator\Translator;
 use GDriveTranslations\Translator\Generator\AndroidGenerator;
 use GDriveTranslations\Translator\Generator\iOSGenerator;
@@ -24,25 +24,36 @@ if (php_sapi_name() != 'cli') {
     exit('This application must be run on the command line.');
 }
 
-$configFilename = '/lang/translate.json';
+const CONFIG_DIR = '/lang';
+
+$configFilename = CONFIG_DIR . '/translate.json';
+$credentialsFile = CONFIG_DIR . '/translate_token.json';
+
+$GDriveServiceFactory = new \GDriveTranslations\GDrive($credentialsFile);
+$downloader = new GDriveDownloader($GDriveServiceFactory->getService(Config::ACCESS_DRIVE));
 
 if (file_exists($configFilename)) {
 
     $configReader = new Reader();
     $config = $configReader->read($configFilename);
 
-    GDriveDownloader::download($config);
+    $csvContent = $downloader->download($config);
     $parseTime = -microtime(true);
     $downloadTime += microtime(true);
 
-    $data = TranslationData::forgeFromContent();
+    $file = fopen('data.csv', 'w');
+    fwrite($file, $csvContent);
+    fclose($file);
+
+    $dataLoader = new TranslationDataLoader();
+    $data = $dataLoader->load('data.csv');
 
     $translator = new Translator();
     $translator
-        ->addGenerator(new JsonGenerator())
-        ->addGenerator(new XlfGenerator())
-        ->addGenerator(new iOSGenerator())
-        ->addGenerator(new AndroidGenerator())
+        ->addGenerator(new JsonGenerator(CONFIG_DIR))
+        ->addGenerator(new XlfGenerator(CONFIG_DIR))
+        ->addGenerator(new iOSGenerator(CONFIG_DIR))
+        ->addGenerator(new AndroidGenerator(CONFIG_DIR))
         ->generate($data, $config);
 
     $parseTime += microtime(true);
@@ -53,14 +64,14 @@ if (file_exists($configFilename)) {
     if(!$line) {
         exit('Cancelled'."\n\n");
     }
-    $sheetFile = GDriveDownloader::create($line);
+    $sheetFile = $downloader->create($line);
 
     $config = new Config($sheetFile->id, Config::ACCESS_FILE);
 
     $writer = new Writer();
     $writer->write($config, $configFilename);
 
-    printf('Translations spreadsheet initialized and available under https://docs.google.com/spreadsheets/d/%s', $sheetFile->id);
-    echo "\ntranslate.json has been saved. \n";
+    printf("Translations spreadsheet initialized and available under https://docs.google.com/spreadsheets/d/%s\n", $sheetFile->id);
+    echo "translate.json has been saved. \n";
     echo "Please edit translate.json to add targets.\n\n";
 }

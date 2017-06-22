@@ -10,6 +10,10 @@ class Target
     public $sections;
     public $tags;
     public $pattern;
+    /**
+     * @var bool
+     */
+    private $outputEmptyValues;
 
     public static function forgeFromRaw(\stdClass $raw)
     {
@@ -18,6 +22,7 @@ class Target
         $target->tags = $raw->tags;
         $target->pattern = property_exists($raw, 'pattern') ? $raw->pattern : '_default';
         $target->sections = property_exists($raw, 'sections') ? $raw->sections : [];
+        $target->outputEmptyValues = property_exists($raw, 'outputEmptyValues') ? (bool) $raw->outputEmptyValues : false;
 
         return $target;
     }
@@ -45,5 +50,10 @@ class Target
             return;
         }
         $this->pattern = $default;
+    }
+
+    public function shouldOutputEmptyValues()
+    {
+        return $this->outputEmptyValues;
     }
 }
