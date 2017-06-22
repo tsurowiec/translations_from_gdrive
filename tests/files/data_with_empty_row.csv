@@ -1,0 +1,31 @@
+Sheet1,,,,,,,
+,This is an example spreadsheet for ,,,,tsurowiec/translations_from_gdrive,,check the docker-hub for more informations
+,,,,,,,
+,###,>>>,>>>,>>>,>>>,en_US,pl_PL
+,,CORE,,,,,
+,,,LABELS,,,,
+,,,,YES,,yes,tak
+,,,,NO,,no,nie
+,,,,SAVE,,save,zapisz
+,,,,CANCEL,,cancel,
+,,COMMON,,,,,
+,"tag1, tag2",,STH1,,,Some message ...,Jakaś wiadomość ...
+,,,FORM,,,,
+,,,,COMMENT,,comment,komentarz2
+,,FRONT,,,,,
+,,,HEADER,,,,
+,,,,TITLE,,My Cool App,Moja Apka
+,,,,CATCH_PHRASE,,Join us!,Dołącz do nas!
+,,,PAGINATION,,,,
+,"tag1, tag2",,,FIRST,,First page,Pierwsza strona
+,"tag1, tag2",,,NEXT,,Next page,Następna strona
+,,,,,,,
+,tag1,,,PREV,,Prev page,Poprzednia strona
+,tag1,,,LAST,,Last page,Ostatnia strona
+,,BACK,,,,,
+,,,MAILS,,,,
+,,,,REGISTER,,,
+,,,,,SUBJECT,You have been registered,Zarejestrowałeś się.
+,,,,,GREETING,Hi %name%,Cześć %name%
+,,,,,LINE1,Thank you for signing up with us.,Dziękujemy za rejestrację
+,tag2,,,,FOOTER,The App Team,Ekipa Apki

@@ -19,7 +19,9 @@ class TranslationDataLoader
 
         $lines = [];
         while ($line = fgetcsv($file)) {
-            $lines[] = $line;
+            if (!$this->isEmptyLine($line)) {
+                $lines[] = $line;
+            }
         }
         fclose($file);
 
@@ -28,6 +30,11 @@ class TranslationDataLoader
         $translationData->rows = $this->completeParentLevels($lines, $metadata);
 
         return $translationData;
+    }
+
+    private function isEmptyLine(array $line)
+    {
+        return '' === implode('', $line);
     }
 
     private function completeParentLevels(array $lines, Metadata $metadata)
