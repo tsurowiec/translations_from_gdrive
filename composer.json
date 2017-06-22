@@ -1,11 +1,16 @@
 {
     "autoload": {
-        "psr-4": { "": "src/", "SymfonyStandard\\": "app/" }
+        "psr-4": {
+            "": "src/"
+        }
     },
     "require": {
         "google/apiclient": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2"
+    },
+    "config": {
+        "bin-dir": "bin"
     }
 }
