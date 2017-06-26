@@ -28,6 +28,7 @@ In the `\lang` directory of your project put a json file named `translate.json`.
 ```
 {
   "fileId": "1AUAKxhuZyjYl4NdpQCLBcSZe2snKAOjcXArlHRIn_hM",
+  "sheetName": "Sheet1",
   "accessType": "drive"
   "targets": [
     {
@@ -46,6 +47,11 @@ In the `\lang` directory of your project put a json file named `translate.json`.
   ]
 }
 ```
+
+**fileId** is unique id of spreadsheet with translations
+
+**sheetName** is optional name of sheet from which translations should be read. Default value is `production`.
+If sheet with given name won't be found the first sheet will be used.
 
 **accessType** is the type of permission tool will ask you to grant. `drive` is the permission to all files in a drive, 
 `file` is the permissions only to files created by the tool (see `permissions`). Property is optional and defaults 
