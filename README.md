@@ -86,17 +86,11 @@ target on the single key basis instead of section basis. Tags are defined for ev
  
 The result files will be placed in the same directory as the `translate.json` configuration file. 
 
-### building container
-
-Create Project in Google APIs Developer Console with GDrive and GSheets access, then download `client_secret.json` file.
-
-`docker build -t babelsheet/babelsheet --build-arg SECRET=$(cat client_secret.json) .`
-
-Where `client_secret.json` is path to your downloaded file with application id and secret
-
 ### running the containter
 
-`docker run -ti --rm -v <<lang directory>>:/lang babelsheet/babelsheet`
+`docker run -ti --rm -v -e CLIENT_ID=$CLIENT_ID -e PROJECT_ID=$PROJECT_ID -e CLIENT_SECRET=$CLIENT_SECRET <<lang directory>>:/lang babelsheet/babelsheet`
+
+Where `$CLIENT_ID`, `$PROJECT_ID`, `$CLIENT_SECRET` are appropriate values of your Project created in Google APIs Developer Console
 
 The parser will ask you to go to the authorization link and paste the access code. Then the access token will be 
 saved in the `lang directory`.
