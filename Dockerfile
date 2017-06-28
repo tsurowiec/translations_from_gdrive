@@ -7,14 +7,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR /src/translator
 
-ARG CLIENT_ID
-ARG PROJECT_ID
-ARG CLIENT_SECRET
+ARG SECRET
 
 RUN composer install --no-dev
 
-ADD docker-entrypoint.sh /
-RUN chmod 755 /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ADD build-secret.sh /
+RUN chmod 755 /build-secret.sh
+ENTRYPOINT ["/build-secret.sh"]
 
 CMD [ "php", "./translate.php" ]
